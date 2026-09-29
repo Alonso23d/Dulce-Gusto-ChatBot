@@ -1,6 +1,4 @@
 <div align="center">
-  <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dulce Gusto Banner" width="100%" style="border-radius: 20px; margin-bottom: 20px; max-height: 300px; object-fit: cover;">
-  
   <h1>🍰 Dulce Gusto — Pastelería Artesanal & IA Chatbot</h1>
   <p><strong>Una experiencia de E-commerce moderna, impulsada por Inteligencia Artificial para hacer tus pedidos más dulces y conversacionales.</strong></p>
 
