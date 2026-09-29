@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  img { @apply max-w-full; }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(156 163 175 / 0.4);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(156 163 175 / 0.7);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99 / 0.6);
+  }
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128 / 0.8);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 hover:bg-brand-700 text-white focus:ring-brand-500 px-5 py-2.5 text-sm shadow-sm;
+  }
+  .btn-secondary {
+    @apply btn bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 focus:ring-gray-300 px-5 py-2.5 text-sm shadow-sm;
+  }
+  .btn-ghost {
+    @apply btn hover:bg-gray-100 text-gray-600 px-3 py-2 text-sm;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 hover:bg-red-700 text-white focus:ring-red-500 px-5 py-2.5 text-sm;
+  }
+  .btn-lg {
+    @apply px-7 py-3.5 text-base;
+  }
+  .btn-sm {
+    @apply px-3.5 py-1.5 text-xs;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-card border border-gray-200;
+  }
+  .input {
+    @apply w-full border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-all bg-white;
+  }
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5;
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .section-title {
+    @apply text-2xl font-bold text-gray-900;
+  }
+  .section-sub {
+    @apply text-gray-500 text-sm mt-1;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-600 to-rose-500 bg-clip-text text-transparent;
+  }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Glassmorphism Components ─────────────────────────────────── */
+@layer components {
+  /* Card de vidrio — fondo claro */
+  .glass {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Card de vidrio — dark */
+  .glass-dark {
+    background: rgba(15, 15, 25, 0.55);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Modal / panel flotante */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.10);
+  }
+
+  /* Botón glassmorphism primario */
+  .btn-glass {
+    @apply btn;
+    background: rgba(99, 102, 241, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(99, 102, 241, 0.30);
+    color: rgb(99, 102, 241);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  }
+  .btn-glass:hover {
+    background: rgba(99, 102, 241, 0.28);
+    border-color: rgba(99, 102, 241, 0.55);
+    transform: translateY(-1px);
+  }
+
+  /* Input glassmorphism */
+  .input-glass {
+    @apply w-full rounded-xl px-3.5 py-2.5 text-sm placeholder-gray-400 focus:outline-none transition-all;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .input-glass:focus {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(99, 102, 241, 0.5);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+
+  /* Badge glassmorphism */
+  .badge-glass {
+    @apply badge;
+    background: rgba(99, 102, 241, 0.12);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    color: rgb(79, 70, 229);
+  }
+
+  /* Navbar / header translúcido */
+  .navbar-glass {
+    background: rgba(255, 255, 255, 0.80);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Sidebar translúcida */
+  .sidebar-glass {
+    background: rgba(248, 250, 252, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(226, 232, 240, 0.6);
+  }
+}
+
+/* ─── Dark mode glass ────────────────────────────────────────────── */
+.dark .glass {
+  background: rgba(30, 30, 46, 0.60) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4) !important;
+}
+.dark .glass-panel {
+  background: rgba(20, 20, 35, 0.75) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+.dark .input-glass {
+  background: rgba(30, 30, 50, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
+  color: #e2e8f0 !important;
+}
+.dark .input-glass:focus {
+  background: rgba(30, 30, 60, 0.75) !important;
+  border-color: rgba(99, 102, 241, 0.45) !important;
+}
+.dark .navbar-glass {
+  background: rgba(15, 15, 25, 0.85) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+.dark .sidebar-glass {
+  background: rgba(15, 15, 25, 0.80) !important;
+  border-right-color: rgba(255, 255, 255, 0.07) !important;
+}
+.dark .btn-glass {
+  background: rgba(99, 102, 241, 0.20) !important;
+  border-color: rgba(99, 102, 241, 0.35) !important;
+  color: rgb(165, 180, 252) !important;
+}
+.dark .btn-glass:hover {
+  background: rgba(99, 102, 241, 0.32) !important;
+}
+.dark .badge-glass {
+  background: rgba(99, 102, 241, 0.18) !important;
+  border-color: rgba(99, 102, 241, 0.30) !important;
+  color: rgb(165, 180, 252) !important;
+}
+
+/* ─── Dark mode admin — fuera de @layer para ganar a utilities ─── */
+.dark .card {
+  background-color: rgb(31 41 55) !important;  /* gray-800 */
+  border-color: rgb(55 65 81) !important;       /* gray-700 */
+}
+.dark .input {
+  background-color: rgb(55 65 81) !important;
+  border-color: rgb(75 85 99) !important;
+  color: rgb(255 255 255) !important;
+}
+.dark .input::placeholder { color: rgb(156 163 175); }
+.dark .btn-secondary {
+  background-color: rgb(55 65 81) !important;
+  border-color: rgb(75 85 99) !important;
+  color: rgb(229 231 235) !important;
+}
+.dark .btn-secondary:hover { background-color: rgb(75 85 99) !important; }
+.dark .btn-ghost { color: rgb(209 213 219) !important; }
+.dark .btn-ghost:hover { background-color: rgb(55 65 81) !important; }
