@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - DULCE GUSTO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full border border-gray-100 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-500 to-amber-500"></div>
+            <div class="text-center mb-8 mt-2">
+                <div class="w-16 h-16 bg-pink-100 rounded-2xl mx-auto flex items-center justify-center text-pink-600 font-bold text-2xl mb-4 shadow-inner">DG</div>
+                <h2 class="text-2xl font-bold text-gray-900">Panel de Administración</h2>
+                <p class="text-gray-500 text-sm mt-1">Ingresa tus credenciales para continuar</p>
+            </div>
+            
+            <form onsubmit="event.preventDefault(); document.getElementById('loginScreen').classList.add('hidden'); document.getElementById('adminPanel').classList.remove('hidden');" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                    <input type="email" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-shadow" placeholder="admin@dulcegusto.com" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+                    <input type="password" class="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-500 transition-shadow" placeholder="••••••••" required>
+                </div>
+                <div class="flex items-center justify-between pb-2">
+                    <div class="flex items-center">
+                        <input id="remember-me" type="checkbox" class="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Recordarme</label>
+                    </div>
+                    <a href="#" class="text-sm font-medium text-pink-600 hover:text-pink-500">¿Olvidaste tu contraseña?</a>
+                </div>
+                <button type="submit" class="w-full bg-gray-900 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-colors shadow-md">
+                    Ingresar al Panel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="adminPanel" class="hidden min-h-screen flex">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-white flex flex-col hidden md:flex shadow-2xl z-20">
+            <div class="h-20 flex items-center px-6 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-pink-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg">DG</div>
+                    <span class="text-xl font-bold tracking-tight">Admin<span class="text-pink-500">Panel</span></span>
+                </div>
+            </div>
+            <nav class="flex-1 px-4 py-6 space-y-2">
+                <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-link flex items-center gap-3 bg-pink-600 text-white px-4 py-3 rounded-xl font-medium transition-colors shadow-md cursor-pointer w-full text-left">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                    Dashboard
+                </button>
+                <button id="nav-pedidos" onclick="switchTab('pedidos')" class="nav-link flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer w-full text-left">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    Pedidos
+                    <span class="ml-auto bg-pink-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+                </button>
+                <button id="nav-productos" onclick="switchTab('productos')" class="nav-link flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer w-full text-left">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+                    Productos
+                </button>
+                <button id="nav-clientes" onclick="switchTab('clientes')" class="nav-link flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer w-full text-left">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    Clientes
+                </button>
+                <button id="nav-reportes" onclick="switchTab('reportes')" class="nav-link flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer w-full text-left">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    Reportes
+                </button>
+            </nav>
+            <div class="p-4 border-t border-gray-800">
+                <button onclick="document.getElementById('adminPanel').classList.add('hidden'); document.getElementById('loginScreen').classList.remove('hidden');" class="flex items-center gap-3 text-gray-400 hover:text-pink-500 w-full px-4 py-2 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Layout -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden bg-gray-50">
+            <!-- Top Header -->
+            <header class="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-8 shadow-sm z-10 flex-shrink-0">
+                <h1 id="header-title" class="text-2xl font-bold text-gray-800">Dashboard General</h1>
+                <div class="flex items-center gap-5">
+                    <button class="relative text-gray-400 hover:text-pink-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <span class="absolute top-0 right-0 w-2.5 h-2.5 bg-pink-500 border-2 border-white rounded-full"></span>
+                    </button>
+                    <div class="flex items-center gap-3 border-l border-gray-200 pl-5">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-sm font-bold text-gray-900">Admin</p>
+                            <p class="text-xs text-gray-500">admin@dulcegusto.com</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-gray-200 overflow-hidden border-2 border-pink-100 shadow-sm">
+                            <img src="https://ui-avatars.com/api/?name=Admin&background=fbcfe8&color=be185d" alt="Admin" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- VIEWS CONTAINER -->
+            <div class="flex-1 overflow-hidden relative">
+                
+                <!-- DASHBOARD VIEW -->
+                <div id="view-dashboard" class="admin-view h-full overflow-y-auto p-8">
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <!-- Stat 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Ventas de Hoy</p>
+                                    <h3 class="text-2xl font-bold text-gray-900">S/ 1,240.50</h3>
+                                </div>
+                                <div class="p-3 bg-green-50 text-green-600 rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-500 font-medium flex items-center bg-green-50 px-2 py-0.5 rounded-md">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                                    12.5%
+                                </span>
+                                <span class="text-gray-400 ml-2">vs ayer</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Stat 2 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Pedidos Nuevos</p>
+                                    <h3 class="text-2xl font-bold text-gray-900">24</h3>
+                                </div>
+                                <div class="p-3 bg-pink-50 text-pink-600 rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-500 font-medium flex items-center bg-green-50 px-2 py-0.5 rounded-md">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                                    4.2%
+                                </span>
+                                <span class="text-gray-400 ml-2">vs ayer</span>
+                            </div>
+                        </div>
+
+                        <!-- Stat 3 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Interacciones Bot</p>
+                                    <h3 class="text-2xl font-bold text-gray-900">145</h3>
+                                </div>
+                                <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-green-500 font-medium flex items-center bg-green-50 px-2 py-0.5 rounded-md">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+                                    18.0%
+                                </span>
+                                <span class="text-gray-400 ml-2">vs ayer</span>
+                            </div>
+                        </div>
+
+                        <!-- Stat 4 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Conversión</p>
+                                    <h3 class="text-2xl font-bold text-gray-900">8.4%</h3>
+                                </div>
+                                <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center text-sm">
+                                <span class="text-red-500 font-medium flex items-center bg-red-50 px-2 py-0.5 rounded-md">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                                    1.2%
+                                </span>
+                                <span class="text-gray-400 ml-2">vs ayer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders Table -->
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+                            <h3 class="text-lg font-bold text-gray-900">Pedidos Recientes</h3>
+                            <button onclick="switchTab('pedidos')" class="text-sm text-pink-600 font-medium hover:text-pink-700 bg-pink-50 px-3 py-1.5 rounded-lg">Ver Todos</button>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                                        <th class="py-4 px-6 font-semibold">ID Pedido</th>
+                                        <th class="py-4 px-6 font-semibold">Cliente</th>
+                                        <th class="py-4 px-6 font-semibold">Fecha</th>
+                                        <th class="py-4 px-6 font-semibold">Estado</th>
+                                        <th class="py-4 px-6 font-semibold">Total</th>
+                                        <th class="py-4 px-6 font-semibold text-right">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm">
+                                    <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                                        <td class="py-4 px-6 font-medium text-gray-900">#DG-8492</td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xs">CM</div>
+                                                <span class="font-medium text-gray-900">Carlos Mendoza</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-gray-500">Hoy, 10:48 AM</td>
+                                        <td class="py-4 px-6">
+                                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold border border-yellow-200">Preparando</span>
+                                        </td>
+                                        <td class="py-4 px-6 font-bold text-gray-900">S/ 75.00</td>
+                                        <td class="py-4 px-6 text-right">
+                                            <button class="text-gray-400 hover:text-pink-600 transition-colors p-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                                        <td class="py-4 px-6 font-medium text-gray-900">#DG-8491</td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">LV</div>
+                                                <span class="font-medium text-gray-900">Lucía Vargas</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-gray-500">Hoy, 09:15 AM</td>
+                                        <td class="py-4 px-6">
+                                            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold border border-blue-200">En Camino</span>
+                                        </td>
+                                        <td class="py-4 px-6 font-bold text-gray-900">S/ 45.00</td>
+                                        <td class="py-4 px-6 text-right">
+                                            <button class="text-gray-400 hover:text-pink-600 transition-colors p-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50/50 transition-colors">
+                                        <td class="py-4 px-6 font-medium text-gray-900">#DG-8490</td>
+                                        <td class="py-4 px-6">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold text-xs">RJ</div>
+                                                <span class="font-medium text-gray-900">Roberto Jiménez</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-4 px-6 text-gray-500">Ayer, 18:30 PM</td>
+                                        <td class="py-4 px-6">
+                                            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold border border-green-200">Entregado</span>
+                                        </td>
+                                        <td class="py-4 px-6 font-bold text-gray-900">S/ 120.00</td>
+                                        <td class="py-4 px-6 text-right">
+                                            <button class="text-gray-400 hover:text-pink-600 transition-colors p-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PEDIDOS VIEW -->
+                <div id="view-pedidos" class="admin-view hidden h-full overflow-y-auto p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex gap-3">
+                            <input type="text" placeholder="Buscar por ID o cliente..." class="w-64 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <select class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <option>Todos los estados</option>
+                                <option>Pendiente</option>
+                                <option>Preparando</option>
+                                <option>En Camino</option>
+                                <option>Entregado</option>
+                            </select>
+                        </div>
+                        <button class="bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-gray-800 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Exportar CSV
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                                    <th class="py-4 px-6 font-semibold">ID Pedido</th>
+                                    <th class="py-4 px-6 font-semibold">Fecha/Hora</th>
+                                    <th class="py-4 px-6 font-semibold">Cliente</th>
+                                    <th class="py-4 px-6 font-semibold">Productos</th>
+                                    <th class="py-4 px-6 font-semibold">Total</th>
+                                    <th class="py-4 px-6 font-semibold">Estado</th>
+                                    <th class="py-4 px-6 font-semibold text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6 font-bold text-gray-900">#DG-8492</td>
+                                    <td class="py-4 px-6 text-gray-500">29/09/2026<br><span class="text-xs">10:48 AM</span></td>
+                                    <td class="py-4 px-6">Carlos Mendoza<br><span class="text-xs text-gray-400">+51 987654321</span></td>
+                                    <td class="py-4 px-6 text-gray-600">1x Torta de Chocolate<br>1x Delivery</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 75.00</td>
+                                    <td class="py-4 px-6">
+                                        <select class="border-none bg-yellow-100 text-yellow-700 rounded-full text-xs font-bold px-3 py-1 cursor-pointer outline-none">
+                                            <option selected>Preparando</option>
+                                            <option>En Camino</option>
+                                            <option>Entregado</option>
+                                        </select>
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-pink-600 hover:text-pink-700 font-medium">Ver Detalle</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6 font-bold text-gray-900">#DG-8491</td>
+                                    <td class="py-4 px-6 text-gray-500">29/09/2026<br><span class="text-xs">09:15 AM</span></td>
+                                    <td class="py-4 px-6">Lucía Vargas<br><span class="text-xs text-gray-400">+51 912345678</span></td>
+                                    <td class="py-4 px-6 text-gray-600">1x Pie de Limón</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 45.00</td>
+                                    <td class="py-4 px-6">
+                                        <select class="border-none bg-blue-100 text-blue-700 rounded-full text-xs font-bold px-3 py-1 cursor-pointer outline-none">
+                                            <option>Preparando</option>
+                                            <option selected>En Camino</option>
+                                            <option>Entregado</option>
+                                        </select>
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-pink-600 hover:text-pink-700 font-medium">Ver Detalle</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6 font-bold text-gray-900">#DG-8490</td>
+                                    <td class="py-4 px-6 text-gray-500">28/09/2026<br><span class="text-xs">18:30 PM</span></td>
+                                    <td class="py-4 px-6">Roberto Jiménez<br><span class="text-xs text-gray-400">+51 999888777</span></td>
+                                    <td class="py-4 px-6 text-gray-600">2x Torta Red Velvet</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 140.00</td>
+                                    <td class="py-4 px-6">
+                                        <select class="border-none bg-green-100 text-green-700 rounded-full text-xs font-bold px-3 py-1 cursor-pointer outline-none">
+                                            <option>Preparando</option>
+                                            <option>En Camino</option>
+                                            <option selected>Entregado</option>
+                                        </select>
+                                    </td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-pink-600 hover:text-pink-700 font-medium">Ver Detalle</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PRODUCTOS VIEW -->
+                <div id="view-productos" class="admin-view hidden h-full overflow-y-auto p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex gap-3">
+                            <input type="text" placeholder="Buscar producto..." class="w-64 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                            <select class="border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                                <option>Todas las categorías</option>
+                                <option>Tortas</option>
+                                <option>Postres Fríos</option>
+                                <option>Galletas/Brownies</option>
+                            </select>
+                        </div>
+                        <button class="bg-pink-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-pink-700 flex items-center gap-2 shadow-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Añadir Nuevo
+                        </button>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                                    <th class="py-4 px-6 font-semibold">Producto</th>
+                                    <th class="py-4 px-6 font-semibold">Categoría</th>
+                                    <th class="py-4 px-6 font-semibold">Precio</th>
+                                    <th class="py-4 px-6 font-semibold">Stock Disp.</th>
+                                    <th class="py-4 px-6 font-semibold">Estado</th>
+                                    <th class="py-4 px-6 font-semibold text-right">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-12 h-12 rounded-lg object-cover">
+                                            <span class="font-bold text-gray-900">Torta de Chocolate</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-500">Tortas</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 65.00</td>
+                                    <td class="py-4 px-6">12</td>
+                                    <td class="py-4 px-6"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Activo</span></td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-gray-400 hover:text-pink-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                                        <button class="text-gray-400 hover:text-red-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="w-12 h-12 rounded-lg object-cover">
+                                            <span class="font-bold text-gray-900">Cheesecake de Fresa</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-500">Postres Fríos</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 55.00</td>
+                                    <td class="py-4 px-6">5</td>
+                                    <td class="py-4 px-6"><span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">Activo</span></td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-gray-400 hover:text-pink-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                                        <button class="text-gray-400 hover:text-red-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50/50">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                            </div>
+                                            <span class="font-bold text-gray-900">Alfajores x10</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-500">Galletas/Brownies</td>
+                                    <td class="py-4 px-6 font-bold text-gray-900">S/ 20.00</td>
+                                    <td class="py-4 px-6 text-red-500 font-bold">0</td>
+                                    <td class="py-4 px-6"><span class="px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">Agotado</span></td>
+                                    <td class="py-4 px-6 text-right">
+                                        <button class="text-gray-400 hover:text-pink-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg></button>
+                                        <button class="text-gray-400 hover:text-red-600 mx-1"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CLIENTES VIEW -->
+                <div id="view-clientes" class="admin-view hidden h-full overflow-y-auto p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <input type="text" placeholder="Buscar cliente por nombre o email..." class="w-80 border border-gray-300 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500">
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                                    <th class="py-4 px-6 font-semibold">Nombre</th>
+                                    <th class="py-4 px-6 font-semibold">Email</th>
+                                    <th class="py-4 px-6 font-semibold">Teléfono</th>
+                                    <th class="py-4 px-6 font-semibold">Total Gastado</th>
+                                    <th class="py-4 px-6 font-semibold">Último Pedido</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-bold text-xs">MM</div>
+                                            <span class="font-bold text-gray-900">María Martínez</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-600">maria@email.com</td>
+                                    <td class="py-4 px-6 text-gray-600">+51 987111222</td>
+                                    <td class="py-4 px-6 font-bold text-green-600">S/ 450.00</td>
+                                    <td class="py-4 px-6 text-gray-500">Hace 2 días</td>
+                                </tr>
+                                <tr class="border-b border-gray-50 hover:bg-gray-50/50">
+                                    <td class="py-4 px-6">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xs">CM</div>
+                                            <span class="font-bold text-gray-900">Carlos Mendoza</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-4 px-6 text-gray-600">carlos.m@email.com</td>
+                                    <td class="py-4 px-6 text-gray-600">+51 987654321</td>
+                                    <td class="py-4 px-6 font-bold text-green-600">S/ 125.00</td>
+                                    <td class="py-4 px-6 text-gray-500">Hoy</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- REPORTES VIEW -->
+                <div id="view-reportes" class="admin-view hidden h-full overflow-y-auto p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Gráfico Simulado 1 -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-6">Ventas de los últimos 7 días</h3>
+                            <div class="flex items-end gap-4 h-48 mt-4 border-b border-gray-200 pb-2 relative">
+                                <div class="w-full bg-pink-100 rounded-t-sm h-[40%] hover:bg-pink-300 transition-colors cursor-pointer relative group"></div>
+                                <div class="w-full bg-pink-300 rounded-t-sm h-[60%] hover:bg-pink-400 transition-colors cursor-pointer"></div>
+                                <div class="w-full bg-pink-200 rounded-t-sm h-[50%] hover:bg-pink-400 transition-colors cursor-pointer"></div>
+                                <div class="w-full bg-pink-500 rounded-t-sm h-[90%] hover:bg-pink-600 transition-colors cursor-pointer shadow-md"></div>
+                                <div class="w-full bg-pink-300 rounded-t-sm h-[70%] hover:bg-pink-400 transition-colors cursor-pointer"></div>
+                                <div class="w-full bg-pink-400 rounded-t-sm h-[80%] hover:bg-pink-500 transition-colors cursor-pointer"></div>
+                                <div class="w-full bg-pink-600 rounded-t-sm h-[100%] hover:bg-pink-700 transition-colors cursor-pointer shadow-md"></div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs text-gray-500 font-medium">
+                                <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+                            </div>
+                        </div>
+
+                        <!-- Top Productos -->
+                        <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="text-lg font-bold text-gray-900 mb-6">Productos Más Vendidos</h3>
+                            <ul class="space-y-5">
+                                <li class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center font-bold">1</div>
+                                        <div>
+                                            <p class="font-bold text-gray-900">Torta de Chocolate</p>
+                                            <p class="text-xs text-gray-500">45 ventas esta semana</p>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-green-600">S/ 2,925</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gray-100 text-gray-600 rounded-lg flex items-center justify-center font-bold">2</div>
+                                        <div>
+                                            <p class="font-bold text-gray-900">Cheesecake de Fresa</p>
+                                            <p class="text-xs text-gray-500">32 ventas esta semana</p>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-green-600">S/ 1,760</span>
+                                </li>
+                                <li class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gray-100 text-gray-600 rounded-lg flex items-center justify-center font-bold">3</div>
+                                        <div>
+                                            <p class="font-bold text-gray-900">Pie de Limón</p>
+                                            <p class="text-xs text-gray-500">28 ventas esta semana</p>
+                                        </div>
+                                    </div>
+                                    <span class="font-bold text-green-600">S/ 1,260</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Script para cambiar de pestañas -->
+    <script>
+        function switchTab(tabId) {
+            // Ocultar todas las vistas
+            document.querySelectorAll('.admin-view').forEach(el => el.classList.add('hidden'));
+            // Mostrar la vista objetivo
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+            
+            // Reiniciar estilos de los enlaces del sidebar
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.className = 'nav-link flex items-center gap-3 text-gray-400 hover:text-white hover:bg-gray-800 px-4 py-3 rounded-xl font-medium transition-colors cursor-pointer w-full text-left';
+            });
+            // Activar estilo del enlace clickeado
+            const activeLink = document.getElementById('nav-' + tabId);
+            activeLink.className = 'nav-link flex items-center gap-3 bg-pink-600 text-white px-4 py-3 rounded-xl font-medium transition-colors shadow-md cursor-pointer w-full text-left';
+            
+            // Actualizar Título del Header
+            const titles = {
+                'dashboard': 'Dashboard General',
+                'pedidos': 'Gestión de Pedidos',
+                'productos': 'Catálogo de Productos',
+                'clientes': 'Directorio de Clientes',
+                'reportes': 'Reportes y Analíticas'
+            };
+            document.getElementById('header-title').innerText = titles[tabId];
+        }
+    </script>
+</body>
+</html>
