@@ -1,0 +1,9 @@
+{
+  "name": "dulce-gusto-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix proyecto-frontend/e-commerce run dev",
+    "build": "npm --prefix proyecto-frontend/e-commerce run build"
+  }
+}

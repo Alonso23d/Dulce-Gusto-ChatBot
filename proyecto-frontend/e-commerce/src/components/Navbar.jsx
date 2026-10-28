@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { ShoppingCart, Search, CakeSlice, Menu, X, User, LogOut, LogIn, Cake } from 'lucide-react'
+import { ShoppingCart, Search, CakeSlice, Menu, X, User, LogOut, LogIn, Cake, Sparkles } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useCartStore } from '../store/useCartStore'
@@ -179,9 +179,10 @@ export default function Navbar() {
   }
 
   const links = [
-    { to: '/',         label: 'Inicio',   end: true },
-    { to: '/catalogo', label: 'Catálogo' },
-    { to: '/nosotros', label: 'Nosotros' },
+    { to: '/',             label: 'Inicio',       end: true },
+    { to: '/catalogo',     label: 'Catálogo' },
+    { to: '/personalizar', label: 'Pide con IA',  isAi: true },
+    { to: '/nosotros',     label: 'Nosotros' },
   ]
 
   return (
@@ -198,17 +199,24 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <div className="hidden md:flex items-center gap-1 ml-4">
-          {links.map(({ to, label, end }) => (
+          {links.map(({ to, label, end, isAi }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
               className={({ isActive }) =>
-                `px-4 py-2.5 rounded-lg text-base font-medium transition-all ${
-                  isActive ? 'bg-brand-50 text-brand-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                `px-3.5 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                  isAi
+                    ? isActive
+                      ? 'bg-purple-100 text-purple-800 shadow-xs'
+                      : 'text-purple-700 bg-purple-50/80 hover:bg-purple-100 border border-purple-200/60'
+                    : isActive
+                    ? 'bg-brand-50 text-brand-700'
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                 }`
               }
             >
+              {isAi && <Sparkles size={14} className="text-purple-600 fill-purple-200 animate-pulse" />}
               {label}
             </NavLink>
           ))}
@@ -258,19 +266,30 @@ export default function Navbar() {
       {/* Mobile menu */}
       {open && (
         <div className="md:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-2">
-          {links.map(({ to, label, end }) => (
+          {links.map(({ to, label, end, isAi }) => (
             <NavLink
               key={to}
               to={to}
               end={end}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `block px-3 py-2 rounded-lg text-sm font-medium ${
-                  isActive ? 'bg-brand-50 text-brand-700' : 'text-gray-600'
+                `flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold ${
+                  isAi
+                    ? isActive
+                      ? 'bg-purple-100 text-purple-800'
+                      : 'text-purple-700 bg-purple-50 border border-purple-200/60'
+                    : isActive
+                    ? 'bg-brand-50 text-brand-700'
+                    : 'text-gray-600 hover:bg-gray-50'
                 }`
               }
             >
-              {label}
+              <span>{label}</span>
+              {isAi && (
+                <span className="text-[10px] bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                  <Sparkles size={10} /> IA
+                </span>
+              )}
             </NavLink>
           ))}
 

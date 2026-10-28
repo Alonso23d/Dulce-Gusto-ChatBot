@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import {
   ChevronRight, Truck, ShieldCheck, Clock, Star,
-  CakeSlice, Cake, Cookie, Layers2, Wheat, Heart, Award,
+  CakeSlice, Cake, Cookie, Layers2, Wheat, Heart, Award, Sparkles,
 } from 'lucide-react'
 import api from '../../lib/api'
 import ProductCard from '../../components/ProductCard'
@@ -101,8 +101,9 @@ export default function HomePage() {
               <Link to="/catalogo" className="btn-primary btn-lg px-8 shadow-lg shadow-brand-500/30">
                 Ver catálogo <ChevronRight size={18} />
               </Link>
-              <Link to="/nosotros" className="btn-lg border-2 border-gray-900 text-gray-900 bg-transparent hover:bg-gray-900 hover:text-white transition-colors rounded-xl font-bold px-8">
-                Nuestra historia
+              <Link to="/personalizar" className="btn-lg border-2 border-purple-900 text-purple-950 bg-white/80 hover:bg-purple-900 hover:text-white transition-all rounded-xl font-bold px-7 flex items-center gap-2 shadow-sm">
+                <Sparkles size={18} className="text-purple-600" />
+                Pide con IA
               </Link>
             </div>
           </div>
@@ -243,8 +244,8 @@ export default function HomePage() {
             Personalizamos tu torta con el mensaje y decoración que desees.<br className="hidden sm:block" />
             Bodas, cumpleaños, graduaciones y más.
           </p>
-          <Link to="/catalogo" className="btn-primary btn-lg px-8 shadow-lg shadow-brand-500/30">
-            Personalizar mi pedido
+          <Link to="/personalizar" className="btn-primary btn-lg px-8 shadow-lg shadow-brand-500/30 flex items-center gap-2 mx-auto w-fit">
+            <Sparkles size={18} /> Diseñar mi torta con IA
           </Link>
         </div>
       </section>

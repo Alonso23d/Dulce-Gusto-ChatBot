@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { CakeSlice, Eye, EyeOff, UserPlus } from 'lucide-react'
 import api from '../../lib/api'
 import { useAuthStore } from '../../store/useAuthStore'
@@ -7,6 +7,8 @@ import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const redirect = searchParams.get('redirect') || '/'
   const { login } = useAuthStore()
   const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -28,8 +30,8 @@ export default function RegisterPage() {
       localStorage.setItem('token', data.token)
       localStorage.setItem('user', JSON.stringify(data.user))
       useAuthStore.setState({ user: data.user, token: data.token })
-      toast.success(`Bienvenida, ${data.user.name}`)
-      navigate('/')
+      toast.success(`Bienvenido/a, ${data.user.name}`)
+      navigate(redirect)
     } catch (err) {
       const errors = err.response?.data?.errors
       if (errors) {
@@ -102,7 +104,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-gray-500 text-sm mt-4">
           ¿Ya tenés cuenta?{' '}
-          <Link to="/login" className="text-brand-400 hover:text-brand-300 font-medium">
+          <Link to={`/login?redirect=${encodeURIComponent(redirect)}`} className="text-brand-400 hover:text-brand-300 font-medium">
             Iniciá sesión
           </Link>
         </p>

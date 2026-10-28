@@ -10,6 +10,7 @@ import CartPage from './pages/public/CartPage'
 import CheckoutPage from './pages/public/CheckoutPage'
 import TrackingPage from './pages/public/TrackingPage'
 import AboutPage from './pages/public/AboutPage'
+import CakeCustomizerPage from './pages/public/CakeCustomizerPage'
 
 import LoginPage from './pages/auth/LoginPage'
 import RegisterPage from './pages/auth/RegisterPage'
@@ -28,6 +29,7 @@ export default function App() {
         <Route element={<PublicLayout />}>
           <Route index element={<HomePage />} />
           <Route path="catalogo" element={<CatalogPage />} />
+          <Route path="personalizar" element={<CakeCustomizerPage />} />
           <Route path="producto/:slug" element={<ProductPage />} />
           <Route path="carrito" element={<CartPage />} />
           <Route path="checkout" element={<CustomerGuard><CheckoutPage /></CustomerGuard>} />
